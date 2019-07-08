@@ -8,11 +8,13 @@ var ReactDOM = require('react-dom/server');
 var Router = require('react-router');
 var routes = require('./app/routes');
 
+// Express middleware dependencies
 var express = require('express'); //package express
 var path = require('path');
 var logger = require('morgan'); //HMTL request logger from package morgan
 var bodyParser = require('body-parser'); //parse POST request data using package body-parser
 
+// MongoDB dependencies
 var mongoose = require('mongoose');
 var Character = require('./models/character');
 var config = require('./config');
@@ -35,7 +37,10 @@ mongoose.connection.on('error', function() {
   console.info('Error: Could not connect to MongoDB. Did you forget to run `mongod`?');
 });
 
-
+///////////////////////////////////////////////////////////////////////////////
+// Express Middleware
+// Create REST API handlers
+// 
 /**
  * POST /api/characters
  * Adds new character to the database.
@@ -445,9 +450,8 @@ app.get('/api/stats', function(req, res, next) {
 });
 
 
-
-//middleware function executed on every request to server
-//unless request is handled by an API endpoint
+// middleware function executed on every request to server
+// unless request is handled by an API endpoint
 app.use(function(req, res) {
   Router.match({ routes: routes.default, location: req.url }, function(err, redirectLocation, renderProps) {
     if (err) {
@@ -463,6 +467,8 @@ app.use(function(req, res) {
     }
   });
 });
+
+///////////////////////////////////////////////////////////////////////////////
 
 /**
  * Socket.io stuff.
