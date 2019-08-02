@@ -453,6 +453,10 @@ app.get('/api/stats', function(req, res, next) {
 // middleware function executed on every request to server
 // unless request is handled by an API endpoint
 app.use(function(req, res) {
+  console.log("N");
+  console.log(req.url);
+  console.log(routes.default);
+  console.log("N");
   Router.match({ routes: routes.default, location: req.url }, function(err, redirectLocation, renderProps) {
     if (err) {
       res.status(500).send(err.message)
